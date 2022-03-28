@@ -8,6 +8,9 @@ produtos: List[Produto] = []
 carrinho: List[Dict[Produto, int]] = []
 
 def main() -> None:
+    produtos.append(Produto(nome='Playstation 4', preco=1999.99))
+    produtos.append(Produto(nome='Nintendo Switch', preco=2139.90))
+    produtos.append(Produto(nome='Xbox One', preco=2067.99))
     menu()
 
 def menu() -> None:
