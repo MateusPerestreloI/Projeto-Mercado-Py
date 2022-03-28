@@ -71,15 +71,63 @@ def listar_produto() -> None:
             sleep(1)
     else:
         print('Ainda não existe(m) produto(s) cadastrado(s)!')
-        sleep(2)
-        menu()
+    sleep(2)
+    menu()
 
 
 def comprar_produto() -> None:
-    pass
+    if len(produtos) > 0:
+        print('========================= Produtos Disponíveis =========================')
+        for produto in produtos:
+            print(produto)
+            print('------------------------------------')
+            sleep(1)
+        print('========================================================================')
+        print('Informe o código do produto que deseja adicionar ao carrinho: ')
+        print('------------------------------------------------------------------------')
+        codigo: int = int(input())
+
+        produto: Produto = achar_por_codigo(codigo)
+        print(f'Quanta(s) unidade(s) do produto {produto.nome} você deseja adicionar ao carrinho?')
+        quant_quer: int = int(input())
+        if produto:
+            if len(carrinho) > 0:
+                tem_no_carrinho: bool = False
+                for item in carrinho:
+                    quant: int = item.get(produto)
+                    if quant:
+                        item[produto] = quant + quant_quer
+                        print(f'O produto {produto.nome} agora possui {quant + 1} de unidade(s) no carrinho!')
+                        tem_no_carrinho = True
+                if not tem_no_carrinho:
+                    prod = {produto: quant_quer}
+                    carrinho.append(prod)
+                    print(f'O produto {produto.nome} foi adicionado no carrinho!')
+            else:
+                item = {produto: quant_quer}
+                carrinho.append(item)
+                print(f'O Produto {produto.nome} foi adicionado ao carrinho!')
+        else:
+            print(f'O produto com código {codigo} não foi encontrado!')
+    else:
+        print('Ainda não existe(m) produto(s) para vender!')
+    sleep(2)
+    menu()
 
 def visualizar_carrinho() -> None:
-    pass
+    if len(carrinho) > 0:
+        print('Produtos no carrinho:')
+
+        for item in carrinho:
+            for dados in item.items():
+                print(dados[0])
+                print(f'Quantidade: {dados[1]}')
+                print('-------------------------------')
+                sleep(1)
+    else:
+        print('Ainda não existe(m) produto(s) no carrinho!')
+    sleep(2)
+    menu()
 
 def fechar_pedido() -> None:
     if len(carrinho) > 0:
@@ -99,8 +147,8 @@ def fechar_pedido() -> None:
         sleep(5)
     else:
         print('Ainda não existe(m) produto(s) no carrinho!')
-        sleep(2)
-        menu()
+    sleep(2)
+    menu()
 
 def achar_por_codigo(codigo: int) -> Produto:
     p: Produto = None
